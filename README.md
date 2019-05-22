@@ -60,6 +60,9 @@ pages = {792--797} }
 **Download this paper:**  [<img src="http://homepage.usask.ca/~masud.rahman/img/pdf.png"
      alt="PDF" heigh="16px" width="16px" />](http://homepage.usask.ca/~masud.rahman/papers/masud-ASE2016a-pp.pdf)
 
+Do you also want to check [RevHelper](https://github.com/masud-technope/RevHelper-Replication-Package-MSR2017)?
+----------------------
+
 ## Something not working as expected?
 
 Contact:  **Masud Rahman**  ([masud.rahman@usask.ca](mailto:masud.rahman@usask.ca))
