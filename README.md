@@ -1,6 +1,6 @@
 # CORRECT: Code Reviewer Recommendation Based on Cross-Project & Technology Experience
 
-Accepted Paper at ICSE 2016 (SEIP) and ASE 2016
+Accepted Papers at ICSE 2016 (SEIP) and ASE 2016
 -----------------------------------------------
 ```
 CORRECT: Code Reviewer Recommendation in GitHub Based on Cross-Project and Technology Experience
