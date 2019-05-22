@@ -1,4 +1,4 @@
-# # CORRECT: Code Reviewer Recommendation Based on Cross-Project & Technology Experience
+# CORRECT: Code Reviewer Recommendation Based on Cross-Project & Technology Experience
 
 Accepted Paper at ICSE 2016 (SEIP)
 -----------------------------------
