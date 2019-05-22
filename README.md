@@ -19,11 +19,21 @@ Mohammad Masudur Rahman, Chanchal K. Roy, Jesse Redl, and Jason Collins
 
 Experimental Data
 ------------------------
-TBA
+- ```COMMIT:``` Commit SHA and corresponding changed files.
+- ```JSON:```: Changed files and tokens from their import statements.
+- ```PR:``` Pull request details
+	- PR ID
+	- Actual code reviewers
+	- Suggested code reviewers
+	- Commit SHAs
+
+- ```sample-prlist:``` Input PR numbers
+- ```sample-output:``` Suggested code reviewers for input PR list
 
 Working Prototype
 ----------------------
-TBA
+- ```correct-exec:``` The working prototype for CORRECT
+
 
 Please cite our work as
 --------------------------
