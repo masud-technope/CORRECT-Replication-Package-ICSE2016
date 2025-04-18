@@ -5,7 +5,6 @@ import ca.usask.cs.srlab.correct.core.PRObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +20,7 @@ public class PullReqThread implements Runnable {
 	HashMap<String, String> url2FileMap;
 	HashMap<Integer, PRObject> prMap;
 	HashMap<String, ArrayList<String>> commitFileMap;
-	int MAXCOMFILES = 10;
+	int MAX_COMMIT_FILES = 10;
 
 
 	public PullReqThread(String repoName, int prNumber,
@@ -98,7 +97,7 @@ public class PullReqThread implements Runnable {
 		for (String key : this.commits) {
 			if (this.commitFileMap.containsKey(key)) {
 				ArrayList<String> files = this.commitFileMap.get(key);
-				if (files.size() <= MAXCOMFILES) {
+				if (files.size() <= MAX_COMMIT_FILES) {
 					dfiles.addAll(new HashSet<String>(files));
 				}
 			}
