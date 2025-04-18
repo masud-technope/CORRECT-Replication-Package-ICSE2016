@@ -7,8 +7,8 @@ public class PullRequestEntry {
 	public int PRNumber;
 	public ArrayList<String> changedFiles;
 	public HashMap<String,String> changedFilesMap;
-	public ArrayList<String> valibs;
+	public ArrayList<String> vaLibs;
 	public ArrayList<String> technologies;
-	public ArrayList<String> libtech;
+	public ArrayList<String> libTech;
 	public ArrayList<String> codeReviewers;
 }
