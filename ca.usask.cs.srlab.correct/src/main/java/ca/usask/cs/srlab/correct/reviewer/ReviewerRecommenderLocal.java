@@ -41,7 +41,6 @@ public class ReviewerRecommenderLocal {
 		for (String line : lines) {
 			temp.add(Integer.parseInt(line.trim()));
 		}
-		// now do the sorting in the ascending order
 		Collections.sort(temp);
 		return temp;
 	}
@@ -57,31 +56,8 @@ public class ReviewerRecommenderLocal {
 		return temp;
 	}
 
-	/*public void collectPastRequestsLocalParallel(int targetPRNumber) {
-		// collecting past pull requests
-		PullRequestCollectThreaded collector = new PullRequestCollectThreaded(
-				targetPRNumber, repoName, localLoader.fileTokenMap,
-				localLoader.prMap, localLoader.commitFileMap);
-		// setting the training size
-		collector.MAXREQS = this.trainingSize;
-		collector.collectPastPRsWithTokens(targetPRNumber, true);
-		this.pastReviewerMap = collector.pastReviewers;
-		if (pastReviewerMap.isEmpty()) {
-			// no past reviewers collected
-			ErrorCodes.CUSTOM_ERROR_MSG = ErrorCodes.NO_PAST_REVIWERS;
-			return;
-		}
-		this.prTokenMap = collector.prTokenMap;
-		if (this.prTokenMap.isEmpty()) {
-			// no library information found in PY files
-			ErrorCodes.CUSTOM_ERROR_MSG = ErrorCodes.NO_LIB_IN_FILE;
-			return;
-		}
-	} */
-
 
 	public void recommendCodeReviewers() {
-		// suggesting code reviewers
 		ArrayList<String> results = new ArrayList<String>();
 		for (int prNumber : this.prList) {
 			CORRECTRequestManager requestManager = new CORRECTRequestManager(
@@ -89,7 +65,6 @@ public class ReviewerRecommenderLocal {
 					localLoader.prMap, localLoader.commitFileMap);
 			String targetTokenList = requestManager
 					.collectLibTechTokensLocal(prNumber);
-			//this.collectPastRequestsLocalParallel(prNumber);
 			LibRankMaker maker = new LibRankMaker(targetTokenList, prTokenMap,
 					pastReviewerMap);
 			ArrayList<String> ranked = maker.getRankedReviewers();
@@ -100,8 +75,8 @@ public class ReviewerRecommenderLocal {
 			}
 		}
 		// now save the output file
-		ContentWriter.writeContent(outputFile, results);
-		System.out.println("Code reviewers recommended successfully!");
+		//ContentWriter.writeContent(outputFile, results);
+		//System.out.println("Code reviewers recommended successfully!");
 	}
 
 	public static void main(String[] args) {
