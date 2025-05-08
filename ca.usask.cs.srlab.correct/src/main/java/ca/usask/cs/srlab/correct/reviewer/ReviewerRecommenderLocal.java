@@ -1,11 +1,9 @@
 package ca.usask.cs.srlab.correct.reviewer;
 
-import ca.usask.cs.srlab.correct.config.ErrorCodes;
 import ca.usask.cs.srlab.correct.config.StaticData;
 import ca.usask.cs.srlab.correct.core.CorrectLocal;
 import ca.usask.cs.srlab.correct.pullrequest.PastPRCollector;
 import ca.usask.cs.srlab.correct.utility.ContentLoader;
-import ca.usask.cs.srlab.correct.utility.ContentWriter;
 import ca.usask.cs.srlab.correct.utility.MiscUtility;
 
 import java.util.ArrayList;

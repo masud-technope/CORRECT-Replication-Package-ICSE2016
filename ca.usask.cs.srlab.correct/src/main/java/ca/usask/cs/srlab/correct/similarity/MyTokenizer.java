@@ -11,12 +11,10 @@ public class MyTokenizer {
 	String itemToTokenize;
 
 	public MyTokenizer(String item) {
-		// initialization
 		this.itemToTokenize = item;
 	}
 
-	public ArrayList<String> tokenize_text_item() {
-		// tokenizing textual content
+	public ArrayList<String> tokenizeTextItem() {
 		StringTokenizer tokenizer = new StringTokenizer(this.itemToTokenize);
 		ArrayList<String> tokens = new ArrayList<String>();
 		while (tokenizer.hasMoreTokens()) {
@@ -24,33 +22,28 @@ public class MyTokenizer {
 			token.trim();
 
 			if (!token.isEmpty()) {
-				ArrayList<String> smalltokens = process_text_item(token);
+				ArrayList<String> smalltokens = processTextItem(token);
 				tokens.addAll(smalltokens);
 			}
 		}
 		return tokens;
 	}
 
-	public ArrayList<String> tokenize_code_item() {
-		// code for tokenization of code elements
-		//String tcode = format_the_code(this.itemToTokenize);
-		//String fcode = remove_code_comment(tcode);
+	public ArrayList<String> tokenizeCodeItem() {
 		StringTokenizer tokenizer = new StringTokenizer(this.itemToTokenize);
 		ArrayList<String> tokens = new ArrayList<String>();
 		while (tokenizer.hasMoreTokens()) {
-			String token = tokenizer.nextToken();
-			token.trim();
+			String token = tokenizer.nextToken().trim();
 			if (!token.isEmpty()) {
-				ArrayList<String> tokenparts = process_source_token(token);
-				tokens.addAll(tokenparts);
+				ArrayList<String> tokenParts = processSourceToken(token);
+				tokens.addAll(tokenParts);
 			}
 		}
 		return tokens;
 	}
-	
-	public ArrayList<String> refine_insignificant_tokens(
+
+	public ArrayList<String> refineInsignificantTokens(
 			ArrayList<String> codeTokens) {
-		// code for refining the insignificant tokens of length 1
 		try {
 			for (String token : codeTokens) {
 				if (token.trim().length() == 1) {
@@ -58,17 +51,14 @@ public class MyTokenizer {
 				}
 			}
 		} catch (Exception exc) {
-			// handle the exception
+
 		}
 		return codeTokens;
 	}
-	
-	
-	
 
-	protected static String remove_code_comment(String codeFragment) {
-		// code for removing code fragment
-		String modifiedCode = new String();
+
+	protected static String removeCodeComment(String codeFragment) {
+		String modifiedCode = "";
 		try {
 			String pattern = "//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/";
 			modifiedCode = codeFragment.replaceAll(pattern, "");
@@ -79,8 +69,7 @@ public class MyTokenizer {
 		return modifiedCode;
 	}
 
-	protected static ArrayList<String> process_source_token(String token) {
-		// code for processing source code token
+	protected static ArrayList<String> processSourceToken(String token) {
 		ArrayList<String> modified = new ArrayList<String>();
 		String[] segments = token.split("\\.");
 		for (String segment : segments) {
@@ -97,8 +86,7 @@ public class MyTokenizer {
 		return modified;
 	}
 
-	protected static ArrayList<String> process_text_item(String bigToken) {
-		// code for processing big tokens
+	protected static ArrayList<String> processTextItem(String bigToken) {
 		ArrayList<String> modified = new ArrayList<>();
 		try {
 			String[] parts = StringUtils
@@ -116,8 +104,6 @@ public class MyTokenizer {
 			}
 		} catch (Exception exc) {
 		}
-		// returning big token
 		return modified;
 	}
-
 }

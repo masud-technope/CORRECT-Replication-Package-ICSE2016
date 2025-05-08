@@ -34,7 +34,6 @@ public class LibRankMaker {
         this.prRecencyMap = getPRRecencyScores();
         this.candidates = new HashMap<>();
         this.candidatesObj = new HashMap<>();
-
     }
 
     private ArrayList<String> loadVALibraries() {
@@ -78,7 +77,6 @@ public class LibRankMaker {
         return MiscUtility.list2Str(libTokens);
     }
 
-
     protected String collectVATechTokensFromPR(String tokenList) {
         String[] tokens = tokenList.split("\\s+");
         ArrayList<String> techTokens = new ArrayList<>();
@@ -105,6 +103,7 @@ public class LibRankMaker {
         HashMap<String, Double> libCandidateMap = new HashMap<>();
         HashMap<String, Double> techCandidateMap = new HashMap<>();
         HashMap<String, Double> miscCandidateMap = new HashMap<>();
+
         String targetLibTokens = collectVALibTokensFromPR(targetTokenList);
         String targetTechTokens = collectVATechTokensFromPR(targetTokenList);
         String targetMiscTokens = collectMiscLibTokens(targetTokenList);
@@ -114,7 +113,7 @@ public class LibRankMaker {
             String libTokens = collectVALibTokensFromPR(tokenList);
             CosineSimilarityMeasure cos1 = new CosineSimilarityMeasure(
                     targetLibTokens, libTokens);
-            double cos1Score = cos1.get_cosine_similarity_score(true);
+            double cos1Score = cos1.getCosineSimilarityScore(true);
             if (cos1Score > 0) {
                 if (pastReviewers.containsKey(key)) {
                     ArrayList<String> revList = pastReviewers.get(key);
@@ -133,7 +132,7 @@ public class LibRankMaker {
             String techTokens = collectVATechTokensFromPR(tokenList);
             CosineSimilarityMeasure cos2 = new CosineSimilarityMeasure(
                     targetTechTokens, techTokens);
-            double cos2Score = cos2.get_cosine_similarity_score(true);
+            double cos2Score = cos2.getCosineSimilarityScore(true);
             if (cos2Score > 0) {
                 if (pastReviewers.containsKey(key)) {
                     ArrayList<String> revList = pastReviewers.get(key);
@@ -151,7 +150,7 @@ public class LibRankMaker {
 
             String miscTokens = collectMiscLibTokens(tokenList);
             CosineSimilarityMeasure cos3 = new CosineSimilarityMeasure(targetMiscTokens, miscTokens);
-            double cos3Score = cos3.get_cosine_similarity_score(true);
+            double cos3Score = cos3.getCosineSimilarityScore(true);
             if (cos3Score > 0) {
                 if (pastReviewers.containsKey(key)) {
                     ArrayList<String> revList = pastReviewers.get(key);
@@ -225,7 +224,7 @@ public class LibRankMaker {
                     myRev.expertTokenList));
             CosineSimilarityMeasure cos = new CosineSimilarityMeasure(
                     targetTokenList, expertTokens);
-            double score = cos.get_cosine_similarity_score(true);
+            double score = cos.getCosineSimilarityScore(true);
             this.candidates.put(login, score);
         }
     }
@@ -266,14 +265,14 @@ public class LibRankMaker {
             double techSimScore = 0;
             double miscSimScore = 0;
 
-            simScore = cosine.get_cosine_similarity_score(true);
+            simScore = cosine.getCosineSimilarityScore(true);
 
             libSimScore = new CosineSimilarityMeasure(targetLibTokens, libTokens)
-                    .get_cosine_similarity_score(true);
+                    .getCosineSimilarityScore(true);
             techSimScore = new CosineSimilarityMeasure(targetTechTokens, techTokens)
-                    .get_cosine_similarity_score(true);
+                    .getCosineSimilarityScore(true);
             miscSimScore = new CosineSimilarityMeasure(targetMiscTokens, miscTokens)
-                    .get_cosine_similarity_score(true);
+                    .getCosineSimilarityScore(true);
 
             if (pastReviewers.containsKey(key)) {
                 ArrayList<String> revList = pastReviewers.get(key);
@@ -323,7 +322,6 @@ public class LibRankMaker {
             this.candidatesObj.remove(currentLogin);
         }
     }
-
 
     protected ArrayList<String> rankCodeReviewers(
             HashMap<String, Double> candidates) {
