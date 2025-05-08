@@ -5,8 +5,6 @@ import ca.usask.cs.srlab.correct.similarity.CosineSimilarityMeasure;
 import ca.usask.cs.srlab.correct.utility.MiscUtility;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -446,6 +444,7 @@ public class LibRankMaker {
             Double v1 = o1.getValue();
             return v2.compareTo(v1);
         });
+
         ArrayList<PRReviewer> ranked = new ArrayList<>();
         for (Entry<String, Double> entry : list) {
             ranked.add(this.candidatesObj.get(entry.getKey()));

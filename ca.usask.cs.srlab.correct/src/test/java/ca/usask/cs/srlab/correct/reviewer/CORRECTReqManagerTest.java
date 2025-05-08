@@ -26,8 +26,8 @@ public class CORRECTReqManagerTest {
 
     @Test
     public void testCollectLibTechTokensLocal() {
-        CORRECTRequestManager crManager = new CORRECTRequestManager(1039, this.repoName, correctLocal.fileTokenMap, correctLocal.prMap, correctLocal.commitFileMap);
-        String tokens = crManager.collectLibTechTokensLocal(1039);
+        CORRECTRequestManager crManager = new CORRECTRequestManager(1046, this.repoName, correctLocal.fileTokenMap, correctLocal.prMap, correctLocal.commitFileMap);
+        String tokens = crManager.collectLibTechTokensLocal(1046);
         System.out.println(tokens);
     }
 }

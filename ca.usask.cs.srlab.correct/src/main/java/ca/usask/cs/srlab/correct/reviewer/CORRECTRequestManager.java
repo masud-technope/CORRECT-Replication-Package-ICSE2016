@@ -114,7 +114,7 @@ public class CORRECTRequestManager {
 
     protected String extractFileURLFromBlob(String blobURL) {
         String[] parts = blobURL.split("/");
-        String fileURL = new String();
+        String fileURL = "";
         for (int i = 7; i < parts.length; i++) {
             fileURL += "/" + parts[i];
         }
