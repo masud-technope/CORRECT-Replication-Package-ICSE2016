@@ -1,11 +1,12 @@
 package ca.usask.cs.srlab.correct.reviewer;
 
 import ca.usask.cs.srlab.correct.core.CorrectLocal;
-import ca.usask.cs.srlab.correct.core.PRObject;
+import ca.usask.cs.srlab.correct.pullrequest.PRReviewer;
 import ca.usask.cs.srlab.correct.pullrequest.PastPRCollector;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 public class LibRankMakerTest {
 
@@ -32,15 +33,28 @@ public class LibRankMakerTest {
         System.out.println(this.lrMaker.collectMiscLibTokens(this.targetTokenList));
     }
 
-
     @Test
-    public void testGetPRRecencyScores(){
+    public void testGetPRRecencyScores() {
         System.out.println(this.lrMaker.getPRRecencyScores());
     }
 
     @Test
-    public void collectNCombineRanks(){
+    public void collectNCombineRanks() {
         System.out.println(this.lrMaker.collectNCombineRanks());
     }
+
+    @Test
+    public void testGetRankedReviewers() {
+        System.out.println(lrMaker.getRankedReviewers());
+    }
+
+    @Test
+    public void testGetRankedReviewersObj() {
+        ArrayList<PRReviewer> ranked = lrMaker.getRankedReviewersObj();
+        for (PRReviewer rev : ranked) {
+            System.out.println(rev.login);
+        }
+    }
+
 
 }

@@ -245,7 +245,7 @@ public class LibRankMaker {
         return recencyMap;
     }
 
-    protected void collectReviewerScores() {
+    protected HashMap<String, PRReviewer> collectReviewerScores() {
         String targetLibTokens = collectVALibTokensFromPR(targetTokenList);
         String targetTechTokens = collectVATechTokensFromPR(targetTokenList);
         String targetMiscTokens = collectMiscLibTokens(targetTokenList);
@@ -309,6 +309,7 @@ public class LibRankMaker {
                 }
             }
         }
+        return this.candidatesObj;
     }
 
     public ArrayList<String> getRankedReviewers() {
@@ -340,14 +341,14 @@ public class LibRankMaker {
     }
 
 
-    protected void normalizeLibNTechScores() {
+    protected HashMap<String, PRReviewer> normalizeLibNTechScores(HashMap<String, PRReviewer> candidatesObj) {
         double maxLibScore = 0;
         double maxTechScore = 0;
         double maxMiscScore = 0;
         double maxTotalScore = 0;
 
-        for (String key : this.candidatesObj.keySet()) {
-            PRReviewer rev = this.candidatesObj.get(key);
+        for (String key : candidatesObj.keySet()) {
+            PRReviewer rev = candidatesObj.get(key);
             double libScore = rev.libSimScore;
             if (libScore > maxLibScore) {
                 maxLibScore = libScore;
@@ -368,8 +369,8 @@ public class LibRankMaker {
             }
         }
 
-        for (String key : this.candidatesObj.keySet()) {
-            PRReviewer rev = this.candidatesObj.get(key);
+        for (String key : candidatesObj.keySet()) {
+            PRReviewer rev = candidatesObj.get(key);
             if (maxLibScore > 0) {
                 rev.libSimScore = rev.libSimScore / maxLibScore;
             }
@@ -382,18 +383,19 @@ public class LibRankMaker {
             if (maxTotalScore > 0) {
                 rev.totalScore = rev.totalScore / maxTotalScore;
             }
-            this.candidatesObj.put(key, rev);
+            candidatesObj.put(key, rev);
         }
+        return candidatesObj;
     }
 
-    protected void normalizeLibNTechScoresAbs() {
+    protected HashMap<String, PRReviewer> normalizeLibNTechScoresAbs(HashMap<String, PRReviewer> candidatesObj) {
         double maxLibScore = 0;
         double maxTechScore = 0;
         double maxMiscScore = 0;
         double maxTotalScore = 0;
 
-        for (String key : this.candidatesObj.keySet()) {
-            PRReviewer rev = this.candidatesObj.get(key);
+        for (String key : candidatesObj.keySet()) {
+            PRReviewer rev = candidatesObj.get(key);
             double libScore = rev.libSimScore;
             if (libScore > maxLibScore) {
                 maxLibScore = libScore;
@@ -416,8 +418,8 @@ public class LibRankMaker {
 
         int prCount = this.prTokenMap.size();
 
-        for (String key : this.candidatesObj.keySet()) {
-            PRReviewer rev = this.candidatesObj.get(key);
+        for (String key : candidatesObj.keySet()) {
+            PRReviewer rev = candidatesObj.get(key);
             if (maxLibScore > 0) {
                 rev.libSimScore = rev.libSimScore / prCount;
             }
@@ -430,23 +432,32 @@ public class LibRankMaker {
             if (maxTotalScore > 0) {
                 rev.totalScore = rev.totalScore / prCount;
             }
-            this.candidatesObj.put(key, rev);
+            candidatesObj.put(key, rev);
         }
+        return candidatesObj;
     }
 
-    protected ArrayList<PRReviewer> rankPRCodeReviewers(HashMap<String, Double> candidates) {
-        List<Entry<String, Double>> list = new LinkedList<>(
+    protected ArrayList<PRReviewer> rankPRCodeReviewers(HashMap<String, PRReviewer> candidates) {
+        List<Entry<String, PRReviewer>> list = new LinkedList<>(
                 candidates.entrySet());
         list.sort((o1, o2) -> {
-            Double v2 = o2.getValue();
-            Double v1 = o1.getValue();
+            Double v2 = o2.getValue().totalScore;
+            Double v1 = o1.getValue().totalScore;
             return v2.compareTo(v1);
         });
 
         ArrayList<PRReviewer> ranked = new ArrayList<>();
-        for (Entry<String, Double> entry : list) {
-            ranked.add(this.candidatesObj.get(entry.getKey()));
+        for (Entry<String, PRReviewer> entry : list) {
+            PRReviewer target = entry.getValue();
+            ranked.add(target);
         }
         return ranked;
     }
+
+    public ArrayList<PRReviewer> getRankedReviewersObj() {
+        HashMap<String, PRReviewer> candidateObj = this.collectReviewerScores();
+        candidateObj = this.normalizeLibNTechScores(candidateObj);
+        return rankPRCodeReviewers(candidateObj);
+    }
+
 }
