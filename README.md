@@ -17,24 +17,24 @@ Mohammad Masudur Rahman, Chanchal K. Roy, Jesse Redl, and Jason Collins
 
 **Abstract:** Peer code review locates common coding rule violations and simple logical errors in the early phases of software development, and thus reduces overall cost. However, in GitHub, identifying an appropriate developer for code review during pull request submission is a non-trivial task. In this paper, we propose a heuristic ranking technique that considers not only the cross-project work history of a developer but also her experience in certain technologies associated with a pull request for determining her expertise as a potential code reviewer. We first motivate our technique using an exploratory study with 20 commercial projects. We then evaluate the technique using 13,081 pull requests from ten projects, and report 92.15% accuracy, 85.93% precision and 81.39% recall in code reviewer recommendation which outperforms the state-of-the-art technique.
 
-Experimental Data
+Replication Package
 ------------------------
-- ```COMMIT:``` Commit SHA and corresponding changed files.
-- ```JSON:``` Changed files and tokens from their import statements.
-- ```PR:``` Pull request details
+- ```CORRECT-EXP-SAMPLE```
+  - ```COMMIT:``` Commit SHA and corresponding changed files.
+  - ```JSON:``` Changed files and tokens from their import statements.
+  - ```PR:``` Pull request details
 	- PR ID
 	- Actual code reviewers
 	- Suggested code reviewers
-	- Commit SHAs
+	- Commit SHA
 
-- ```sample-prlist:``` Input PR numbers
-- ```sample-output:``` Suggested code reviewers for the input PR list
+  - ```sample-prlist:``` Input PR numbers
+  - ```sample-output:``` Suggested code reviewers for the input PR list
+- ```ca.usask.cs.srlab.correct:``` The working code for CORRECT prototype.
 
-**The dataset is anonymized due to proprietary issues. More extended datasets are coming soon!**
+- ```experimental-data-sample:``` The zip version of the experimental data.
 
-Working Prototype
-----------------------
-- ```correct-exec:``` The working prototype for CORRECT
+**The dataset has been anonymized due to proprietary issues. More extended datasets are coming soon!**
 
 
 Please cite our work as
