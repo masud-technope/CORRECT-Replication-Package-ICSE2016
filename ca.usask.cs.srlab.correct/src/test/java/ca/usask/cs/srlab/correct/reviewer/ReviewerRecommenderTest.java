@@ -1,5 +1,6 @@
 package ca.usask.cs.srlab.correct.reviewer;
 
+import ca.usask.cs.srlab.correct.pullrequest.PRReviewer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ public class ReviewerRecommenderTest {
     @Test
     public void testRecommendCodeReviewersSingle() {
         ReviewerRecommenderLocal recommender = new ReviewerRecommenderLocal(this.repoName, this.prListFile, this.trainingSize, this.topK, this.revOutputFile);
-        System.out.println(recommender.recommendCodeReviewers(1046));
+        System.out.println(recommender.recommendCodeReviewers(1137));
     }
 
     @Test
@@ -34,4 +35,14 @@ public class ReviewerRecommenderTest {
         ArrayList<String> recLines = recommender.recommendCodeReviewers();
         System.out.println(recLines);
     }
+
+    @Test
+    public void testRecommendReviewersObj(){
+        ReviewerRecommenderLocal recommender = new ReviewerRecommenderLocal(this.repoName, this.prListFile, this.trainingSize, this.topK, this.revOutputFile);
+        ArrayList<PRReviewer> recommended = recommender.recommendCodeReviewersObj(1095);
+        for(PRReviewer reviewer: recommended){
+            System.out.println(reviewer.login);
+        }
+    }
+
 }

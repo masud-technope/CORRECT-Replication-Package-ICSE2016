@@ -2,6 +2,7 @@ package ca.usask.cs.srlab.correct.reviewer;
 
 import ca.usask.cs.srlab.correct.config.StaticData;
 import ca.usask.cs.srlab.correct.core.CorrectLocal;
+import ca.usask.cs.srlab.correct.pullrequest.PRReviewer;
 import ca.usask.cs.srlab.correct.pullrequest.PastPRCollector;
 import ca.usask.cs.srlab.correct.utility.ContentLoader;
 import ca.usask.cs.srlab.correct.utility.MiscUtility;
@@ -56,6 +57,17 @@ public class ReviewerRecommenderLocal {
         return temp;
     }
 
+    protected ArrayList<PRReviewer> getTopKObjOnly(ArrayList<PRReviewer> ranked) {
+        ArrayList<PRReviewer> temp = new ArrayList<PRReviewer>();
+        for (PRReviewer rev : ranked) {
+            temp.add(rev);
+            if (temp.size() == TOPK) {
+                break;
+            }
+        }
+        return temp;
+    }
+
     protected void loadPastPRDetails(int currentPRNumber) {
         PastPRCollector pprCollector = new PastPRCollector(repoName, currentPRNumber, trainingSize, localLoader);
         this.prTokenMap = pprCollector.collectPastPRs();
@@ -71,7 +83,19 @@ public class ReviewerRecommenderLocal {
         this.loadPastPRDetails(prNumber);
         LibRankMaker maker = new LibRankMaker(targetTokenList, prTokenMap,
                 pastReviewerMap);
-        return maker.getRankedReviewers();
+        return  this.getTopKOnly(maker.getRankedReviewers());
+    }
+
+    public ArrayList<PRReviewer> recommendCodeReviewersObj(int prNumber){
+        CORRECTRequestManager requestManager = new CORRECTRequestManager(
+                prNumber, repoName, localLoader.fileTokenMap,
+                localLoader.prMap, localLoader.commitFileMap);
+        String targetTokenList = requestManager
+                .collectLibTechTokensLocal(prNumber);
+        this.loadPastPRDetails(prNumber);
+        LibRankMaker maker = new LibRankMaker(targetTokenList, prTokenMap,
+                pastReviewerMap);
+        return this.getTopKObjOnly(maker.getRankedReviewersObj());
     }
 
     public ArrayList<String> recommendCodeReviewers() {

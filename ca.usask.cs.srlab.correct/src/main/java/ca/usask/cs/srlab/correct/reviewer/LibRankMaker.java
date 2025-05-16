@@ -216,17 +216,24 @@ public class LibRankMaker {
         return combinedMap;
     }
 
-
-    protected void calculateOverallExperienceScore() {
-        for (String login : this.candidatesObj.keySet()) {
-            PRReviewer myRev = this.candidatesObj.get(login);
-            String expertTokens = MiscUtility.list2Str(new ArrayList<String>(
-                    myRev.expertTokenList));
-            CosineSimilarityMeasure cos = new CosineSimilarityMeasure(
-                    targetTokenList, expertTokens);
-            double score = cos.getCosineSimilarityScore(true);
-            this.candidates.put(login, score);
+    protected ArrayList<String> rankCodeReviewers(
+            HashMap<String, Double> candidates) {
+        List<Entry<String, Double>> list = new LinkedList<>(
+                candidates.entrySet());
+        list.sort((o1, o2) -> {
+            Double v2 = o2.getValue();
+            Double v1 = o1.getValue();
+            return v2.compareTo(v1);
+        });
+        ArrayList<String> ranked = new ArrayList<>();
+        for (Entry<String, Double> entry : list) {
+            ranked.add(entry.getKey());
         }
+        return ranked;
+    }
+
+    public ArrayList<String> getRankedReviewers() {
+        return this.collectNCombineRanks();
     }
 
     protected HashMap<Integer, Double> getPRRecencyScores() {
@@ -312,33 +319,6 @@ public class LibRankMaker {
         return this.candidatesObj;
     }
 
-    public ArrayList<String> getRankedReviewers() {
-        return this.collectNCombineRanks();
-    }
-
-
-    protected void discardCurrentLogin(String currentLogin) {
-        if (this.candidates.containsKey(currentLogin)) {
-            this.candidates.remove(currentLogin);
-            this.candidatesObj.remove(currentLogin);
-        }
-    }
-
-    protected ArrayList<String> rankCodeReviewers(
-            HashMap<String, Double> candidates) {
-        List<Entry<String, Double>> list = new LinkedList<>(
-                candidates.entrySet());
-        list.sort((o1, o2) -> {
-            Double v2 = o2.getValue();
-            Double v1 = o1.getValue();
-            return v2.compareTo(v1);
-        });
-        ArrayList<String> ranked = new ArrayList<>();
-        for (Entry<String, Double> entry : list) {
-            ranked.add(entry.getKey());
-        }
-        return ranked;
-    }
 
 
     protected HashMap<String, PRReviewer> normalizeLibNTechScores(HashMap<String, PRReviewer> candidatesObj) {
@@ -437,6 +417,15 @@ public class LibRankMaker {
         return candidatesObj;
     }
 
+
+
+    protected void discardCurrentLogin(String currentLogin) {
+        if (this.candidates.containsKey(currentLogin)) {
+            this.candidates.remove(currentLogin);
+            this.candidatesObj.remove(currentLogin);
+        }
+    }
+
     protected ArrayList<PRReviewer> rankPRCodeReviewers(HashMap<String, PRReviewer> candidates) {
         List<Entry<String, PRReviewer>> list = new LinkedList<>(
                 candidates.entrySet());
@@ -460,4 +449,16 @@ public class LibRankMaker {
         return rankPRCodeReviewers(candidateObj);
     }
 
+    @Deprecated
+    protected void calculateOverallExperienceScore() {
+        for (String login : this.candidatesObj.keySet()) {
+            PRReviewer myRev = this.candidatesObj.get(login);
+            String expertTokens = MiscUtility.list2Str(new ArrayList<String>(
+                    myRev.expertTokenList));
+            CosineSimilarityMeasure cos = new CosineSimilarityMeasure(
+                    targetTokenList, expertTokens);
+            double score = cos.getCosineSimilarityScore(true);
+            this.candidates.put(login, score);
+        }
+    }
 }
