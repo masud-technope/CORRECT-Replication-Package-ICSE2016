@@ -44,5 +44,4 @@ public class ReviewerRecommenderTest {
             System.out.println(reviewer.login);
         }
     }
-
 }
